@@ -1,0 +1,23 @@
+{% extends "NVapp/header.html" %}
+
+{% block content %}
+	<div>
+		{% if user.is_authenticated %}
+			<h4>
+				<div class="alert alert-info" role="alert">
+					<b>Hi {{user.username}}!</b>
+				</div>
+			</h4>
+			<button type="button" class="btn btn-primary" onclick="window.location='/score/';" >Score some cells</button>
+			<button type="button" class="btn btn-primary" onclick="window.location='/history/';" >View your scoring history</button>
+		{% else %}
+			<h4>
+				<div class="alert alert-info" role="alert">
+					<b>Hi! Please login.</b>
+				</div>
+			</h4>
+			<button type="button" class="btn btn-primary" onclick="window.location='/login/';" >Login</button>
+		{% endif %}
+	</div>
+
+{% endblock %}

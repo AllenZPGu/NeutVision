@@ -1,0 +1,48 @@
+{% extends "NVapp/header.html" %}
+{% load static %}
+
+
+{% block content %}
+
+{% if neutsToScore %}
+	<div class="row">
+		<div class="col-md-4">
+			<img src="{% static neutImagePath %}" alt="Cell" class="img-fluid">
+		</div>
+		<div class="col-md-8" id="rightPanel">
+			<script src="{% static 'NVapp/js/score.js' %}"></script>
+			<script>
+				createBtns( {{myData|safe}} );
+			</script>
+
+			<div>
+				<h4>Any other comments</h4>
+				<input id="input_extraComments" class="form-control" type="text" placeholder="Any other comments">
+				<br>
+			</div>
+			
+			<br>
+			
+			<form method="post">
+				{% csrf_token %}
+				<div class="btn-group btn-group-justified" role="group">
+					<div class="btn-group" role="group">
+						<button class="btn btn-primary" type="button" onclick="onSubmit( '{{neutImageName|safe}}' )">Submit</button>
+					</div>
+				</div>
+			</form>
+
+			<br>
+		</div>
+	</div>
+{% else %}
+	<h4>
+		<div class="alert alert-info" role="alert">
+			<b>There are no more cells for you to score!</b>
+		</div>
+	</h4>
+
+{% endif %}
+
+
+{% endblock %}
