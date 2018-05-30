@@ -1,4 +1,4 @@
-*.jpg
+NVapp/static/NVapp/img/*
 *.DS_Store
 
 # Byte-compiled / optimized / DLL files
