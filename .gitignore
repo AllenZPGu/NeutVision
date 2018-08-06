@@ -1,5 +1,7 @@
 NVapp/static/NVapp/cells/*
 *.DS_Store
+*.jpg
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

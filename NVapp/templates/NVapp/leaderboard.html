@@ -1,0 +1,22 @@
+{% extends "NVapp/header.html" %}
+{% load static %}
+
+{% block content %}
+<h5>
+	<div class="alert alert-info" role="alert">
+		<b>Thanks everyone for helping out!</b>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 table-responsive" id="mainTableDiv">
+			<script src="{% static 'NVapp/js/leaderboard.js' %}"></script>
+			<script>
+				createTable( {{columns|safe}}, {{sortedList|safe}} );
+			</script>
+		</div>
+	</div>
+</h5>
+
+
+
+{% endblock %}

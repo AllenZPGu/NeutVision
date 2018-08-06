@@ -1,0 +1,112 @@
+{% extends "NVapp/header.html" %}
+{% load static %}
+
+{% block content %}
+<h5>
+	<div class="alert alert-info" role="alert">
+		<b>These images below are examples of images you will come across during scoring.</b>
+	</div>
+</h5>
+
+<div>
+	<h3>Classifying Image Quality</h3>
+	<p>Some images are good while others are so poor that they contain no useful information.</p>
+	<div class="col-md-3">
+		<h4>Good: nucleus visible</h4>
+		<img src="{% static 'NVapp/img/good.jpg' %}" alt="Cell" class="img-fluid">
+		<br>
+		<p>There is enough contrast that we can clearly see the where the nucleus is.</p>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h4>Poor: out of focus</h4>
+		<img src="{% static 'NVapp/img/outOfFocus.jpg' %}" alt="Cell" class="img-fluid">
+		<p>We can kinda see where the nucleus is but it's out of focus.</p>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h4>Poor: nucleus not visible</h4>
+		<img src="{% static 'NVapp/img/poor.jpg' %}" alt="Cell" class="img-fluid">
+		<p>We can't see a nucleus. That being said, this is probably not even a cell.</p>
+	</div>
+</div>
+<div class="col-xs-12" style="height:30px;"></div>
+<hr width="100%">
+
+<div>
+	<h3>Classifying Segmentation</h3>
+	<p>A cell is 'segmented' if you believe its nucleus is shaped sufficiently irregularly. Common features of segmented cells include nuclei lobing, nuclei fragmentation or nuclei not being round.</p>
+	<div class="col-md-3">
+		<h4>Unsegmented</h4>
+		<img src="{% static 'NVapp/img/unsegmented.jpg' %}" alt="Cell" class="img-fluid">
+		<br>
+		<p>Is this even a neutrophil yet?</p>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h4>Segmented</h4>
+		<img src="{% static 'NVapp/img/segmented.jpg' %}" alt="Cell" class="img-fluid">
+		<p>The perfect amount of nuclear weirdness for a neutrophil!</p>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h4>Hypersegmented</h4>
+		<img src="{% static 'NVapp/img/hypersegmented.jpg' %}" alt="Cell" class="img-fluid">
+		<p>This nucleus has more or less exploded everywhere.</p>
+	</div>
+</div>
+<div class="col-xs-12" style="height:30px;"></div>
+<hr width="100%">
+
+<div>
+	<h3>Classifying Shape</h3>
+	<div class="col-md-3">
+		<h4>Pancake</h4>
+		<img src="{% static 'NVapp/img/pancake.jpg' %}" alt="Cell" class="img-fluid">
+		<br>
+		<p>This pancake-shaped nucleus is fairly round.</p>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h4>Croissant</h4>
+		<img src="{% static 'NVapp/img/croissant.jpg' %}" alt="Cell" class="img-fluid">
+		<p>🇫🇷J'aime les croissants! 🇫🇷<!-- &#x1F1EB&#x1F1F7 --></p>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h4>Donut</h4>
+		<img src="{% static 'NVapp/img/donut.jpg' %}" alt="Cell" class="img-fluid">
+		<p>Note the annular nature of this nucleus.</p>
+	</div>
+	<div class="col-md-1"></div>
+</div>
+<div class="col-xs-12" style="height:30px;"></div>
+<hr width="100%">
+
+<div>
+	<h3>Counting Lobes</h3>
+	<p>A 'lobe' is basically a large discrete nuclear blob. Lobes can be interconnected by narrow bridges or can be separate nuclear fragments.</p>
+	<div class="col-md-3">
+		<h4>One</h4>
+		<img src="{% static 'NVapp/img/one.jpg' %}" alt="Cell" class="img-fluid">
+		<br>
+		<p>Unsegmented pancake nuclei should only have one lobe that constitutes the entire nucleus.</p>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h4>Three</h4>
+		<img src="{% static 'NVapp/img/three.jpg' %}" alt="Cell" class="img-fluid">
+		<p>Two of the lobes are connected while the third is a separate fragment.</p>
+	</div>
+	<div class="col-md-1"></div>
+	<div class="col-md-3">
+		<h4>Four</h4>
+		<img src="{% static 'NVapp/img/five.jpg' %}" alt="Cell" class="img-fluid">
+		<p>All four lobes are interconnected</p>
+	</div>
+	<div class="col-md-1"></div>
+</div>
+<div class="col-xs-12" style="height:30px;"></div>
+<hr width="100%">
+
+{% endblock %}

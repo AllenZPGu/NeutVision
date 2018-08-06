@@ -4,18 +4,18 @@ import sqlite3
 conn = sqlite3.connect('neutVision.sqlite3')
 c = conn.cursor()
 
-cellDirs = os.listdir('NVapp/static/NVapp/cells')
+dayDirs = os.listdir('NVapp/static/NVapp/cells')
 
-for img in cellDirs:
-	c.execute('SELECT * FROM Images WHERE name=?', (img,))
-
-	if img == ".DS_Store":
-		print("Skipped .DS_Store")
-	elif c.fetchone() == None:
-		c.execute('INSERT INTO Images (name, count) VALUES (?,?)', (img,0,))
-		print("Inserted %s"%img)
-	else:
-		print("%s already exists"%img)
+for dayDir in [i for i in dayDirs if '.DS_Store' not in i]:
+	#day = 'Day '+dayDir[1:-1].replace('#','')
+	cellDirs = os.listdir('NVapp/static/NVapp/cells/'+dayDir)
+	for img in [j for j in cellDirs if '.DS_Store' not in j]:
+		c.execute('SELECT * FROM Images WHERE name=? AND source=?;', (img,dayDir,))
+		if c.fetchone() == None:
+			c.execute('INSERT INTO Images (name, count, source) VALUES (?,?,?)', (img,0,dayDir,))
+			print("Inserted %s"%img)
+		else:
+			print("%s already exists"%img)
 
 conn.commit()
 conn.close()

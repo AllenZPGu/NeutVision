@@ -1,0 +1,1 @@
+scp vc7hpc-225.hpc.wehi.edu.au:/home/gu.a/NeutScripts/NeutVision/*.sqlite3 ./DBFromServer

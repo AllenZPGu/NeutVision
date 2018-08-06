@@ -6,37 +6,31 @@ from django.contrib.auth.models import User
 from .models import Images, Scores
 import json
 import time
-import random
 
 def index(request):
 	return render(request, 'NVapp/home.html')
 
 @login_required
 def score(request):
-	fields = {"Quality":{"heading":"Image/staining quality", "buttons":["Good: nucleus visible", "Out of focus nucleus", "Nucleus not visible", "Other"], "optional":False},
-		"Degree":{"heading":"Degree of segmentation", "buttons":["Unsegmented","Segmented","Hypersegmented","Unknown","Other"], "optional":False},
-		"Lobe":{"heading":"Number of lobes (optional)", "buttons":["1","2","3","4","5","6", "Unknown", "Other"], "optional":True},
-		"Shape":{"heading":"Nuclear shape (optional)", "buttons":["Pancake","Croissant","Donut","Unknown","Other"], "optional":True},
+	fields = {"Quality":{"heading":"Image/staining quality", "buttons":["Good: nucleus visible", "Out of focus nucleus", "Nucleus not visible", "Other"]},
+		"Degree":{"heading":"Degree of segmentation", "buttons":["Unsegmented","Segmented","Hypersegmented","Unknown","Other"]},
+		"Lobe":{"heading":"Number of lobes", "buttons":["1","2","3","4","5","6", "Unknown", "Other"]},
+		"Shape":{"heading":"Nuclear shape", "buttons":["Pancake","Croissant","Donut","Unknown","Other"]},
 		}
 
 	selectedImg = None
-	n = 2
-	while selectedImg == None and n > 0:
-		n-= 1
-		rawPossibleImgs = Images.objects.filter(count=n)
-		rawPossibleImgs2 = [i for i in rawPossibleImgs]
-		random.shuffle(rawPossibleImgs2)
-
-		for posImg in rawPossibleImgs2:
-			if len(Scores.objects.filter(scorer=request.user, img=posImg))==0:
-				selectedImg = posImg
-				break
+	possibleImgs = Images.objects.filter(count__lt=2)
+	
+	for posImg in possibleImgs:
+		if len(Scores.objects.filter(scorer=request.user, img=posImg))==0:
+			selectedImg = posImg
+			break
 
 	if selectedImg == None:
 		toPass = {"neutsToScore":False}
 	else:
 		toPass = {"neutsToScore":True,
-				"neutImagePath":"NVapp/cells/{}/{}".format(selectedImg.source, selectedImg.name,), 
+				"neutImagePath":"NVapp/cells/%s"%selectedImg.name, 
 				"neutImageName":selectedImg.name,
 				"myData":json.dumps(fields)}
 
@@ -111,7 +105,7 @@ def leaderboard(request):
 		personDict['Last Score Date'] = max([i.date for i in allScores]).strftime("%d / %m / 20%y")
 		unsortedList.append(personDict)
 	sortedList = sorted(unsortedList, key = lambda x: -x['Total Scores'])
-
+	
 	return render(request, 'NVapp/leaderboard.html', {'sortedList':sortedList, 'columns':['Person', 'Total Scores', 'Last Score Date']})
 
 

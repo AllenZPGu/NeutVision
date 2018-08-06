@@ -1,0 +1,26 @@
+{% extends "NVapp/header.html" %}
+{% load static %}
+
+
+{% block content %}
+
+{% if anyHistory %}
+	<div class="row">
+		<div class="col-md-12 table-responsive" id="mainTableDiv">
+			<script src="{% static 'NVapp/js/history.js' %}"></script>
+			<script>
+				createTable( {{columns|safe}}, {{history|safe}}, "{{imgPath|safe}}" );
+			</script>
+		</div>
+	</div>
+{% else %}
+	<h4>
+		<div class="alert alert-info" role="alert">
+			<b>You have no scoring history.</b>
+		</div>
+	</h4>
+
+{% endif %}
+
+
+{% endblock %}

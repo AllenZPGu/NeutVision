@@ -1,8 +1,6 @@
 var scores = {};
-var globalOptions = {};
 
 function createBtns(options) {
-	globalOptions = options;
 	for (var section in options) {
 		var overallDiv = document.createElement("div");
 		overallDiv.className = "overall_div"
@@ -88,7 +86,7 @@ function onBtnClick2(btn) {
 function onSubmit(image) {
 	var proceed = true;
 	for (i in scores) {
-		if (scores[i]==null && !globalOptions[i]['optional']){
+		if (scores[i]==null){
 			proceed=false;
 		} else if (scores[i]=="Other"){
 			var commentsInput = document.getElementById("input_"+i);
@@ -130,6 +128,6 @@ function onSubmit(image) {
 			}
 		})
 	} else {
-		alert("Make sure you've selected an entry for every non-optional row. If unsure, use the Unknown button");
+		alert("Make sure you've selected an entry for every row.");
 	}
 }
