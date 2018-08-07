@@ -25,7 +25,7 @@ function createTable(columns, sortedList) {
 }
 
 function reSortRows(columns, sortedList) {
-	for (var i=0; i<history.length; i++) {
+	for (var i=0; i<sortedList.length; i++) {
 		var newTR = document.createElement("tr");
 		document.getElementById("mainTBody").appendChild(newTR);
 

@@ -23,11 +23,10 @@ def score(request):
 	n = 2
 	while selectedImg == None and n > 0:
 		n-= 1
-		rawPossibleImgs = Images.objects.filter(count=n)
-		rawPossibleImgs2 = [i for i in rawPossibleImgs]
-		random.shuffle(rawPossibleImgs2)
+		rawPossibleImgs = [i for i in Images.objects.filter(count=n)]
+		random.shuffle(rawPossibleImgs)
 
-		for posImg in rawPossibleImgs2:
+		for posImg in rawPossibleImgs:
 			if len(Scores.objects.filter(scorer=request.user, img=posImg))==0:
 				selectedImg = posImg
 				break
@@ -44,25 +43,28 @@ def score(request):
 
 def submit_score(request):
 	if request.method == "POST":
-		results = request.POST
-		
-		img = Images.objects.filter(name=results["Image"])[0]
+		try:
+			results = request.POST
+			
+			img = Images.objects.filter(name=results["Image"])[0]
 
-		newScore = Scores()
-		newScore.scorer = request.user
-		newScore.img = img
-		newScore.quality = results["Quality"]
-		newScore.degree = results["Degree"]
-		newScore.lobe = results["Lobe"]
-		newScore.shape = results["Shape"]
-		newScore.allothercomments = results["AllOtherComments"]
-		newScore.date = time.strftime("20%y-%m-%d")
-		newScore.save()
+			newScore = Scores()
+			newScore.scorer = request.user
+			newScore.img = img
+			newScore.quality = results["Quality"]
+			newScore.degree = results["Degree"]
+			newScore.lobe = results["Lobe"]
+			newScore.shape = results["Shape"]
+			newScore.allothercomments = results["AllOtherComments"]
+			newScore.date = time.strftime("20%y-%m-%d")
+			newScore.save()
 
-		img.count+=1
-		img.save()
+			img.count+=1
+			img.save()
 
-		return JsonResponse({'success':True})
+			return JsonResponse({'success':True})
+		except:
+			return JsonResponse({'success':False})
 	else:
 		return JsonResponse({'success':False})
 
@@ -104,15 +106,19 @@ def leaderboard(request):
 			continue
 		personDict = {}
 		allScores = Scores.objects.filter(scorer=person)
-		personDict['Person'] = person.username
+		personDict['Name'] = person.username
 		personDict['Total Scores'] = len(allScores)
+		personDict['Choccy Tally'] = '🍫'*min(int(len(allScores)/100), 10) if len(allScores)>=100 else '-'
 		if len(allScores) == 0:
 			continue
 		personDict['Last Score Date'] = max([i.date for i in allScores]).strftime("%d / %m / 20%y")
 		unsortedList.append(personDict)
 	sortedList = sorted(unsortedList, key = lambda x: -x['Total Scores'])
+	sortedList[0]['Name'] = '🥇'+sortedList[0]['Name']
+	sortedList[1]['Name'] = '🥈'+sortedList[1]['Name']
+	sortedList[2]['Name'] = '🥉'+sortedList[2]['Name']
 
-	return render(request, 'NVapp/leaderboard.html', {'sortedList':sortedList, 'columns':['Person', 'Total Scores', 'Last Score Date']})
+	return render(request, 'NVapp/leaderboard.html', {'sortedList':sortedList, 'columns':['Name', 'Total Scores', 'Choccy Tally', 'Last Score Date']})
 
 
 

@@ -123,6 +123,8 @@ function onSubmit(image) {
 				if (suc['success']) {
 					location.reload();
 					alert("Success. Click OK to proceed to the next cell.");
+					document.getElementById("input_extraComments").value = "";
+					scores = {};
 				}
 				else {
 					alert("Something failed!!!");
