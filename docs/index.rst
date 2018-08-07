@@ -10,15 +10,20 @@ NeutVision
    :maxdepth: 2
    :caption: Contents:
 
-   about
-   access
-   use
-   hood
 
-
-Indices and tables
+About
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+Sad
+
+
+Hi
+===
+
+Me
+
+
+Lmao
+===
+
+Test
