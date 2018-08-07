@@ -49,7 +49,7 @@ function reSortRows(columns, history, imgPath, sortBy) {
 				// neutName.setAttribute("data-img", imgPath+history[i][columns[j]]);
 				neutName.innerHTML = history[i][columns[j]];
 				newTD.appendChild(neutName);
-			} else {	
+			} else {
 				newTD.innerHTML=history[i][columns[j]];
 			}
 

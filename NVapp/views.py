@@ -74,8 +74,8 @@ def history(request):
 		scoreDict = {}
 		scoreDict["Image Quality"] = score.quality
 		scoreDict["Segmentation"] = score.degree
-		scoreDict["Lobes"] = score.lobe
-		scoreDict["Shape"] = score.shape
+		scoreDict["Lobes"] = score.lobe if len(score.lobe)>0 else '-'
+		scoreDict["Shape"] = score.shape if len(score.shape)>0 else '-'
 		scoreDict["All Other Comments"] = score.allothercomments if len(score.allothercomments) > 0 else "-"
 		scoreDict["Date"] = score.date.strftime("%d / %m / 20%y")
 		scoreDict["Image"] = score.img.id

@@ -1,25 +1,57 @@
 {% extends "NVapp/header.html" %}
+{% load static %}
 
 {% block content %}
 	<div>
-		{% if user.is_authenticated %}
-			<h4>
-				<div class="alert alert-info" role="alert">
-					<b>Hi {{user.username}}! To get started, click on "<a href='/examples/'>View some examples</a>".</b>
+		<div class="col-md-6">
+			{% if user.is_authenticated %}
+				<h4>
+					<div class="alert alert-info text-center" role="alert">
+						<b>Hi {{user.username}}! To get started, click on "<a href='/examples/'>View some examples</a>".</b>
+					</div>
+				</h4>
+				<div class="btn-group btn-group-justified" role="group">
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-primary" onclick="window.location='/examples/';" >View some examples</button>
+					</div>
 				</div>
-			</h4>
-			<button type="button" class="btn btn-primary" onclick="window.location='/score/';" >Score some cells</button>
-			<button type="button" class="btn btn-primary" onclick="window.location='/history/';" >View your scoring history</button>
-			<button type="button" class="btn btn-primary" onclick="window.location='/examples/';" >View some examples</button>
-			<button type="button" class="btn btn-primary" onclick="window.location='/leaderboard/';" >The Leaderboard</button>
-		{% else %}
-			<h4>
-				<div class="alert alert-info" role="alert">
-					<b>Hi! Please login.</b>
+				<br>
+				<div class="btn-group btn-group-justified" role="group">
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-primary" onclick="window.location='/score/';" >Score some cells</button>
+					</div>
 				</div>
-			</h4>
-			<button type="button" class="btn btn-primary" onclick="window.location='/login/';" >Login</button>
-		{% endif %}
+				<br>
+				<div class="btn-group btn-group-justified" role="group">
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-primary" onclick="window.location='/history/';" >View your scoring history</button>
+					</div>
+				</div>
+				<br>
+				<div class="btn-group btn-group-justified" role="group">
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-primary" onclick="window.location='/leaderboard/';" >The Leaderboard</button>
+					</div>
+				</div>
+				<br>
+			{% else %}
+				<h4>
+					<div class="alert alert-info text-center" role="alert">
+						<b>Hi! Please login.</b>
+					</div>
+				</h4>
+				<div class="btn-group btn-group-justified" role="group">
+					<div class="btn-group" role="group">
+						<button type="button" class="btn btn-primary" onclick="window.location='/login/';" >Login</button>
+					</div>
+				</div>
+				
+			{% endif %}
+		</div>
+
+		<div class="col-md-6">
+			<img src="{% static 'NVapp/img/wehi_mosaic.jpg' %}" alt="Cell" class="img-fluid" style="max-width:70%; max-height:70%">
+		</div>
 	</div>
 
 {% endblock %}
