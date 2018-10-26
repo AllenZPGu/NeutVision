@@ -1,1 +1,1 @@
-rsync -zarv -m --include="*/" --include='*.py' --include='*.sh' --include='*.js' --include='*.html' --exclude='*' . vc7hpc-225.hpc.wehi.edu.au:/home/gu.a/NeutScripts/NeutVision
+rsync -zarv -m --include="*/" --include='*.py' --include='*.sh' --include='*.js' --include='*.html' --include='*.png' --exclude='*' . vc7hpc-225.hpc.wehi.edu.au:/home/gu.a/NeutScripts/NeutVision

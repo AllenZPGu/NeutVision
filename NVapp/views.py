@@ -14,9 +14,9 @@ def index(request):
 @login_required
 def score(request):
 	fields = {"Quality":{"heading":"Image/staining quality", "buttons":["Good: nucleus visible", "Out of focus nucleus", "Nucleus not visible", "Other"], "optional":False},
-		"Degree":{"heading":"Degree of segmentation", "buttons":["Unsegmented","Segmented","Hypersegmented","Unknown","Other"], "optional":False},
+		"Degree":{"heading":"Degree of differentiation", "buttons":["Undifferentiated","Differentiated","Hypersegmented","Unknown","Other"], "optional":False},
 		"Lobe":{"heading":"Number of lobes (optional)", "buttons":["1","2","3","4","5","6", "Unknown", "Other"], "optional":True},
-		"Shape":{"heading":"Nuclear shape (optional)", "buttons":["Pancake","Croissant","Donut","Unknown","Other"], "optional":True},
+		"Shape":{"heading":"Nuclear shape (optional)", "buttons":["Ovoid","Banded","Annular","Unknown","Other"], "optional":True},
 		}
 
 	selectedImg = None
@@ -35,9 +35,13 @@ def score(request):
 		toPass = {"neutsToScore":False}
 	else:
 		toPass = {"neutsToScore":True,
-				"neutImagePath":"NVapp/cells/{}/{}".format(selectedImg.source, selectedImg.name,), 
-				"neutImageName":selectedImg.name,
+				"neutImagePath":"NVapp/cells/{}/{}".format(selectedImg.source, selectedImg.name), 
+				"neutImageName":"{}/{}".format(selectedImg.source, selectedImg.name),
 				"myData":json.dumps(fields)}
+		# if request.user.username == "Erin":
+		# 	toPass["neutImagePath"] = "NVapp/img/UNICORN.jpg"
+		# if request.user.username == "Shawna":
+		# 	toPass["neutImagePath"] = "NVapp/img/MEDAL.png"
 
 	return render(request, 'NVapp/score.html', toPass)
 
@@ -45,24 +49,28 @@ def submit_score(request):
 	if request.method == "POST":
 		try:
 			results = request.POST
-			
-			img = Images.objects.filter(name=results["Image"])[0]
+			imageDeets = results["Image"].split('/')
+			imgRaw = Images.objects.filter(source=imageDeets[0], name=imageDeets[1])
 
-			newScore = Scores()
-			newScore.scorer = request.user
-			newScore.img = img
-			newScore.quality = results["Quality"]
-			newScore.degree = results["Degree"]
-			newScore.lobe = results["Lobe"]
-			newScore.shape = results["Shape"]
-			newScore.allothercomments = results["AllOtherComments"]
-			newScore.date = time.strftime("20%y-%m-%d")
-			newScore.save()
+			if len(imgRaw) == 0:
+				return JsonResponse({'success':False})
+			else:
+				img = imgRaw[0]
+				newScore = Scores()
+				newScore.scorer = request.user
+				newScore.img = img
+				newScore.quality = results["Quality"]
+				newScore.degree = results["Degree"]
+				newScore.lobe = results["Lobe"]
+				newScore.shape = results["Shape"]
+				newScore.allothercomments = results["AllOtherComments"]
+				newScore.date = time.strftime("20%y-%m-%d")
+				newScore.save()
 
-			img.count+=1
-			img.save()
+				img.count+=1
+				img.save()
 
-			return JsonResponse({'success':True})
+				return JsonResponse({'success':True})
 		except:
 			return JsonResponse({'success':False})
 	else:
@@ -106,10 +114,10 @@ def leaderboard(request):
 			continue
 		personDict = {}
 		allScores = Scores.objects.filter(scorer=person)
-		personDict['Name'] = person.username
+		personDict['Name'] = person.username if person.username != 'Erin' else 'Erin '+'🦄'
 		personDict['Total Scores'] = len(allScores)
-		personDict['Choccy Tally'] = '🍫'*min(int(len(allScores)/100), 10) if len(allScores)>=100 else '-'
-		if len(allScores) == 0:
+		personDict['Choccy Tally'] = '🍫'*min(int(personDict['Total Scores']/100), 10) if personDict['Total Scores']>=100 else '-'
+		if personDict['Total Scores'] == 0:
 			continue
 		personDict['Last Score Date'] = max([i.date for i in allScores]).strftime("%d / %m / 20%y")
 		unsortedList.append(personDict)
